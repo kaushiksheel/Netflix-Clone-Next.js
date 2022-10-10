@@ -1,0 +1,22 @@
+export const avatars=[
+    {
+        id:1,
+        url:"https://avatars.dicebear.com/api/adventurer/your-custom-seed.svg"
+    },
+    {
+        id:2,
+        url:"https://avatars.dicebear.com/api/adventurer/your-custom-seedfffffd.svg"
+    },
+    {
+        id:3,
+        url:"https://avatars.dicebear.com/api/adventurer/fds.svg"
+    },
+    {
+        id:4,
+        url:"https://avatars.dicebear.com/api/adventurer/fdsd.svg"
+    },
+    {
+        id:5,
+        url:"https://avatars.dicebear.com/api/adventurer/your-custfffom-seed.svg"
+    },
+]
