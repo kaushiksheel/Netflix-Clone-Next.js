@@ -29,12 +29,14 @@ export const VideoModal = () => {
 
   return (
     <div className="grid place-content-center w-[100vw] min-h-[100vh] bg-overlay fixed top-0 z-[93299] ">
-      <div className=" w-full h-fit bg-[black] rounded-md relative ">
+      <div className="">
+      <div className=" md:w-full md:h-fit bg-[black] rounded-md relative ">
         <ReactPlayer
          
           playing
           url={`https://www.youtube.com/watch?v=${videoKey && videoKey}`}
           controls
+       width={500}
         />
         <button
           className="top-5 right-5 absolute"
@@ -44,6 +46,7 @@ export const VideoModal = () => {
         >
           <XCircleIcon className="w-12 h-1w-12 text-white" />
         </button>
+      </div>
       </div>
     </div>
   );
