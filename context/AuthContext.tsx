@@ -24,7 +24,7 @@ export const AuthContextProvider = ({ children }: ContextPropsI) => {
       if (localStorage.getItem('avatar')) {
         router.push("/home");
       } else{
-        router.push("/");
+        router.push("/login");
       }
     });
 
