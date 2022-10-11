@@ -19,8 +19,6 @@ const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-
-
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -28,7 +26,7 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          localStorage.setItem('uid',user.uid as string);
+          localStorage.setItem("uid", user.uid as string);
           setLoading(false);
           setCurrentUser(user as UserI);
           router.push("/whoiswatching");
@@ -46,7 +44,7 @@ const Login = () => {
       <Container>
         <div className="py-3">
           <Image
-          onClick={()=>router.push('/')}
+            onClick={() => router.push("/")}
             objectFit="contain"
             src="/logo.svg"
             alt="netflix logo"

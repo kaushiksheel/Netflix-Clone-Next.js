@@ -1,6 +1,7 @@
 import { getAuth, getIdToken, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { avatars } from "../data/avatars";
 import { AuthContextI } from "../interfaces/ContextI";
 import { UserI } from "../interfaces/UserI";
 import { auth } from "../lib/firebase";
@@ -15,11 +16,12 @@ export const AuthContextProvider = ({ children }: ContextPropsI) => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<UserI>();
   const [userAvatar, setUserAvatar] = useState<string>("");
+  
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser(user as UserI);
+      setCurrentUser(user as UserI);
+      if (localStorage.getItem('avatar')) {
         router.push("/home");
       } else{
         router.push("/");

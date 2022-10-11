@@ -10,7 +10,7 @@ import { db } from "../lib/firebase";
 
 const WhoIsWatching = () => {
   const router = useRouter();
-  const { currentUser, setUserAvatar } = useContext(AuthContext);
+  const {  setUserAvatar } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [profile, setProfile] = useState<UserProfileI[]>([]);
 
@@ -51,7 +51,8 @@ const WhoIsWatching = () => {
               {profile?.map((item) => (
                 <div
                   onClick={() => {
-                    setUserAvatar(item.data.avatar);
+                    setUserAvatar(item.data.avatar)
+                    localStorage.setItem('avatar',item.data.avatar)
                     router.push("/home");
                   }}
                   key={item.id}
