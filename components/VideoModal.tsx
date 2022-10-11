@@ -32,11 +32,13 @@ export const VideoModal = () => {
       <div className="">
       <div className=" md:w-full md:h-fit bg-[black] rounded-md relative ">
         <ReactPlayer
-         
+         width={900}
+         height={500}
+         onEnded={()=>setShowVideoModal(false)}
           playing
           url={`https://www.youtube.com/watch?v=${videoKey && videoKey}`}
           controls
-       width={500}
+       
         />
         <button
           className="top-5 right-5 absolute"

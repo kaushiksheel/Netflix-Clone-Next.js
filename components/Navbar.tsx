@@ -60,7 +60,7 @@ const {userAvatar}=useContext<AuthContextI>(AuthContext);
             <Image
             onClick={open as undefined|any}
               className="cursor-pointer"
-              src={userAvatar&&userAvatar}
+              src={userAvatar?userAvatar:"https://avatars.dicebear.com/api/adventurer/your-custfffom-seed.svg"}
               alt="user avatar"
               width={28}
               height={28}

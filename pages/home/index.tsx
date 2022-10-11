@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
 import {
@@ -6,13 +5,13 @@ import {
   FETCH_ORIGINALS,
   IMAGE_LINK,
   POPULAR_MOVIE_API_LINK,
-  TRENDING_MOVIE_API_LINK,
   FETCH_TOP_RATED,
   FETCH_COMEDY_MOVIES,
   FETCH_HORROR_MOVIES,
   FETCH_ROMANTIC_MOVIES,
   FETCH_DOCUMENTARIES,
   TV_SHOWS,
+  FETCH_TRENDING,
 } from "../../constants";
 import { MovieI } from "../../interfaces/MovieI";
 import { Row } from "../../components/Row";
@@ -24,88 +23,48 @@ import { request } from "../../api/request";
 import { MovieInfoModal } from "../../components/MovieInfoModal";
 import { VideoModal } from "../../components/VideoModal";
 import { MovieContext } from "../../context/MovieContext";
-import { AuthContextI, MovieContextI } from "../../interfaces/ContextI";
+import { MovieContextI } from "../../interfaces/ContextI";
 import { LogoutModal } from "../../components/LogoutModal";
-import { AuthContext } from "../../context/AuthContext";
 
-export default function Home() {
-  const {currentUser}=useContext<AuthContextI>(AuthContext);
-  const { showVideoModal,setShowVideoModal,setMovieId,setTvShow } = useContext<MovieContextI>(MovieContext);
+interface PropsI {
+  tvShows: MovieI[];
+  popularMovies: MovieI[];
+  actionMovies: MovieI[];
+  topRated: MovieI[];
+  originals: MovieI[];
+  comedyMovies: MovieI[];
+  horrorMovies: MovieI[];
+  romanticMovies: MovieI[];
+  documentaries: MovieI[];
+  trendings: MovieI[];
+}
+
+export default function Home({
+  tvShows,
+  popularMovies,
+  actionMovies,
+  topRated,
+  originals,
+  comedyMovies,
+  horrorMovies,
+  romanticMovies,
+  documentaries,
+  trendings,
+}: PropsI) {
+  const { showVideoModal, setShowVideoModal, setMovieId, setTvShow } =
+    useContext<MovieContextI>(MovieContext);
   const [showModal, setShowModal] = useState(false);
   const [selectedMovieId, setSelectedMovieId] = useState<number>();
-  const[showLogout,setShowLogout]=useState(false)
-  const [trending, setTrending] = useState<MovieI[]>([]);
-  const [tvShows,setTvShows] = useState<MovieI[]>([]);
-  const [action, setAction] = useState<MovieI[]>([]);
-  const [topRated, setTopRated] = useState<MovieI[]>([]);
-  const [originals, setOriginals] = useState<MovieI[]>([]);
-  const [comedy, setComedy] = useState<MovieI[]>([]);
-  const [horror, setHorror] = useState<MovieI[]>([]);
-  const [romantic, setRomantic] = useState<MovieI[]>([]);
-  const [documentaries, setDocumentaries] = useState<MovieI[]>([]);
-  const[poster,setPoster]=useState<MovieI>();
-  const[fetch,setFetch]=useState<boolean>(false);
+  const [showLogout, setShowLogout] = useState(false);
+  const [poster, setPoster] = useState<MovieI>();
 
   useEffect(() => {
-    setFetch(true)
-    const fetchTvShows = async () => {
-      const { data } = await request.get(TV_SHOWS);
-      setTvShows(data.results as MovieI[]);
-    };
-    const fetchMovie = async () => {
-      const { data } = await request.get(POPULAR_MOVIE_API_LINK);
-      setTrending(data.results as MovieI[]);
-    };
-    const fetchPopular = async () => {
-      const { data } = await request.get(FETCH_ACTION_MOVIES);
-      setAction(data.results as MovieI[]);
-    };
-    const fetchTopRated = async () => {
-      const { data } = await request.get(FETCH_TOP_RATED);
-      setTopRated(data.results as MovieI[]);
-    };
-    const fetchOrginals = async () => {
-      const { data } = await request.get(FETCH_ORIGINALS);
-      setOriginals(data.results as MovieI[]);
-    };
-    const fetchComedy = async () => {
-      const { data } = await request.get(FETCH_COMEDY_MOVIES);
-      setComedy(data.results as MovieI[]);
-    };
-    const fetchHorror = async () => {
-      const { data } = await request.get(FETCH_HORROR_MOVIES);
-      setHorror(data.results as MovieI[]);
-    };
-    const fetchRomatic = async () => {
-      const { data } = await request.get(FETCH_ROMANTIC_MOVIES);
-      setRomantic(data.results as MovieI[]);
-    };
-    const fetchDocumentaries = async () => {
-      const { data } = await request.get(FETCH_DOCUMENTARIES);
-      setDocumentaries(data.results as MovieI[]);
-    };
-    fetchTvShows();
-    fetchMovie();
-    fetchPopular();
-    fetchTopRated();
-    fetchOrginals();
-    fetchComedy();
-    fetchHorror();
-    fetchRomatic();
-    fetchDocumentaries();
-  }, []);
+    const poster =
+      tvShows &&
+      (tvShows[Math.floor(Math.random() * tvShows?.length)] as MovieI);
 
-
-  useEffect(()=>{
-
-    const poster = tvShows[
-      Math.floor(Math.random() * trending.length - 1)
-    ] as MovieI;
-
-    setPoster(poster)
-   
-  },[trending.length,tvShows])
-
+    setPoster(poster);
+  }, [tvShows?.length, tvShows]);
 
   return (
     <>
@@ -121,43 +80,51 @@ export default function Home() {
           backgroundSize: "cover",
         }}
       >
-        <Navbar open={()=>setShowLogout(true)}/>
+        <Navbar open={() => setShowLogout(true)} />
         <Container>
           <div className="hero-wrap  h-full max-w-[50%] inline-block mt-[23rem]">
             <h1 className="text-white font-bold text-[3rem] md:text-[4rem]">
               {poster?.name || poster?.original_name}
             </h1>
-            <p className="text-white
-            text-[1.5rem] md:text-[1.7rem]">
+            <p
+              className="text-white
+            text-[1.5rem] md:text-[1.7rem]"
+            >
               {poster?.overview.substring(0, 250) + "..."}
             </p>
           </div>
           <div className="mt-6 flex items-center gap-7">
-            <button onClick={()=>{
-              setTvShow(true)
-                setMovieId(poster?.id as number)
-              setShowVideoModal(true)
-            }} className="bg-white flex w-fit gap-2 items-center  text-[1.5rem] md:text-[2rem] p-3 px-[1.5rem] rounded-lg">
-              <PlayIcon className="
+            <button
+              onClick={() => {
+                setTvShow(true);
+                setMovieId(poster?.id as number);
+                setShowVideoModal(true);
+              }}
+              className="bg-white flex w-fit gap-2 items-center  text-[1.5rem] md:text-[2rem] p-3 px-[1.5rem] rounded-lg"
+            >
+              <PlayIcon
+                className="
               w-[1.5rem] h-[1.5rem]
-              md:w-[2rem] md:h-[2rem]" /> Play
+              md:w-[2rem] md:h-[2rem]"
+              />{" "}
+              Play
             </button>
             <button className="bg-overlay flex w-fit gap-2 items-center md:text-[2rem] p-3 px-[1.5rem] rounded-lg text-[1.5rem] text-white">
-              <InformationCircleIcon className="
+              <InformationCircleIcon
+                className="
               w-[1.5rem] h-[1.5rem]
-              md:w-[2rem] md:h-[2rem] " />
+              md:w-[2rem] md:h-[2rem] "
+              />
               More Info
             </button>
           </div>
         </Container>
-        {showLogout&&
-        <LogoutModal close={()=>setShowLogout(false)}/>
-        }
+        {showLogout && <LogoutModal close={() => setShowLogout(false)} />}
       </header>
       <main className="my-10">
         <Row
           title="Trendings"
-          movie={trending}
+          movie={trendings && trendings}
           openModal={setShowModal}
           setSelectedMovieId={setSelectedMovieId}
         />
@@ -168,38 +135,44 @@ export default function Home() {
           setSelectedMovieId={setSelectedMovieId}
         />
         <Row
+          title="Popular"
+          movie={popularMovies && popularMovies}
+          openModal={setShowModal}
+          setSelectedMovieId={setSelectedMovieId}
+        />
+        <Row
           title="Action"
-          movie={action}
+          movie={actionMovies && actionMovies}
           openModal={setShowModal}
           setSelectedMovieId={setSelectedMovieId}
         />
         <Row
           title="Top Rated"
-          movie={topRated}
+          movie={topRated && topRated}
           openModal={setShowModal}
           setSelectedMovieId={setSelectedMovieId}
         />
         <Row
           title="Comedy"
-          movie={comedy}
+          movie={comedyMovies && comedyMovies}
           openModal={setShowModal}
           setSelectedMovieId={setSelectedMovieId}
         />
         <Row
           title="Horror"
-          movie={horror}
+          movie={horrorMovies && horrorMovies}
           openModal={setShowModal}
           setSelectedMovieId={setSelectedMovieId}
         />
         <Row
           title="Romantic"
-          movie={romantic}
+          movie={romanticMovies && romanticMovies}
           openModal={setShowModal}
           setSelectedMovieId={setSelectedMovieId}
         />
         <Row
           title="Documentaries"
-          movie={documentaries}
+          movie={documentaries && documentaries}
           openModal={setShowModal}
           setSelectedMovieId={setSelectedMovieId}
         />
@@ -212,10 +185,53 @@ export default function Home() {
         />
       )}
       {showVideoModal && <VideoModal />}
-    
     </>
   );
 }
 
-
-
+export const getServerSideProps = async () => {
+  const res = await request.get(TV_SHOWS);
+  const res2 = await request.get(POPULAR_MOVIE_API_LINK);
+  const res3 = await request.get(FETCH_ACTION_MOVIES);
+  const res4 = await request.get(FETCH_TOP_RATED);
+  const res5 = await request.get(FETCH_ORIGINALS);
+  const res6 = await request.get(FETCH_COMEDY_MOVIES);
+  const res7 = await request.get(FETCH_HORROR_MOVIES);
+  const res8 = await request.get(FETCH_ROMANTIC_MOVIES);
+  const res9 = await request.get(FETCH_DOCUMENTARIES);
+  const res10 = await request.get(FETCH_TRENDING);
+  const data = await res.data;
+  const data2 = await res2.data;
+  const data3 = await res3.data;
+  const data4 = await res4.data;
+  const data5 = await res5.data;
+  const data6 = await res6.data;
+  const data7 = await res7.data;
+  const data8 = await res8.data;
+  const data9 = await res9.data;
+  const data10 = await res10.data;
+  const tvShows = data.results;
+  const popularMovies = data2.results;
+  const actionMovies = data3.results;
+  const topRated = data4.results;
+  const originals = data5.results;
+  const comedyMovies = data6.results;
+  const horrorMovies = data7.results;
+  const romanticMovies = data8.results;
+  const documentaries = data9.results;
+  const trendings = data10.results;
+  return {
+    props: {
+      tvShows,
+      popularMovies,
+      actionMovies,
+      topRated,
+      originals,
+      comedyMovies,
+      horrorMovies,
+      romanticMovies,
+      documentaries,
+      trendings,
+    },
+  };
+};
