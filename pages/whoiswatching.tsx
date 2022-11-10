@@ -58,7 +58,7 @@ const WhoIsWatching = () => {
                   key={item.id}
                   className="grid place-items-center"
                 >
-                  <div className="w-[8rem] h-[8rem]">
+                  <div className="w-[10rem] h-[10rem] rounded-lg">
                     <Image
                       className="hover:scale-[1.2] cursor-pointer transition-all"
                       src={item.data.avatar}

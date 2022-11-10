@@ -31,15 +31,15 @@ export const VideoModal = () => {
     <div className="grid place-content-center w-[100vw] min-h-[100vh] bg-overlay fixed top-0 z-[93299] ">
       <div className="">
       <div className=" md:w-full md:h-fit bg-[black] rounded-md relative ">
-        <ReactPlayer
-         width={900}
-         height={500}
+      <div className=" w-full h-full">
+      <ReactPlayer
          onEnded={()=>setShowVideoModal(false)}
           playing
           url={`https://www.youtube.com/watch?v=${videoKey && videoKey}`}
           controls
        
         />
+      </div>
         <button
           className="top-5 right-5 absolute"
           onClick={() => {
