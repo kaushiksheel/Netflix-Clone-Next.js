@@ -16,18 +16,18 @@ export const Movie = ({ item, openModal,  setSelectedMovieId }: PropsI) => {
   const {setShowVideoModal,setMovieId,setTvShow}=useContext<MovieContextI>(MovieContext)
   return (
     <div className="movie group mr-3 relative  cursor-pointer">
-      <div className="w-full h-[14rem]">
+      
         <Image
           src={`${IMAGE_LINK}${item.backdrop_path}`}
-          layout="responsive"
-          width={0}
-          height={0}
+          layout="fixed"
+          width={262.3}
+          height={149.16}
           objectFit="cover"
           loading="lazy"
           className="rounded-md"
           alt='movie thumbnail'
         />
-      </div>
+
       <div className="transition-all ease-in-out   group-hover:bottom-4 icons absolute -bottom-full left-4 flex items-center gap-3 z-50 bg-none">
         <div
         onClick={()=>{setShowVideoModal(true)

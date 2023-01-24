@@ -2,7 +2,8 @@ import React from 'react'
 import { MovieI } from '../interfaces/MovieI'
 import { Container } from './Container'
 import { Movie } from './Movie'
-import { Slider } from './Slider'
+import { Slider } from './Slider';
+
 
 interface PropsI{
     title:string;

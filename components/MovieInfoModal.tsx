@@ -79,6 +79,7 @@ export const MovieInfoModal = ({
                   height={50}
                   objectFit="cover"
                   className="rounded-full"
+                  loading='lazy'
                 />
                 <p className="text-white text-[1.3rem] mt-3">{item?.name}</p>
               </div>

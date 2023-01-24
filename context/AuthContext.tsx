@@ -1,7 +1,6 @@
-import { getAuth, getIdToken, onAuthStateChanged } from "firebase/auth";
+import {  onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { avatars } from "../data/avatars";
 import { AuthContextI } from "../interfaces/ContextI";
 import { UserI } from "../interfaces/UserI";
 import { auth } from "../lib/firebase";
